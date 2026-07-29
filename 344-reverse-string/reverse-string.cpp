@@ -1,14 +1,15 @@
 class Solution {
 private:
-    void f(vector<char>& s , int l , int r ){
-        if(l>r) return;
+    void f(vector<char>& s , int ind){
+        int n = s.size();
+        if(ind>=n/2) return;
 
-        swap(s[l],s[r]);
-        f(s,l+1,r-1);         
+        swap(s[ind],s[n-ind-1]);
+        f(s,ind+1);         
     }
 public:
     void reverseString(vector<char>& s) {
         int n = s.size();
-        f(s,0,n-1);
+        f(s,0);
     }
 };
