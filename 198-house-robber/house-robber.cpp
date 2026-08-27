@@ -11,8 +11,14 @@ private:
     }
 public:
     int rob(vector<int>& nums) {
-        vector<int> dp(nums.size()+1,-1);
-        return f(0,nums,dp);
+        int n = nums.size();
+        vector<int> dp(n+2,0);
+        for(int ind = n-1;ind>=0;ind--){
+            int take = dp[ind+2] + nums[ind];
+            int notake = dp[ind+1];
 
+            dp[ind] = max(take,notake);
+        }
+        return dp[0];
     }
 };
