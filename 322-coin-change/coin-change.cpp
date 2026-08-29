@@ -1,28 +1,26 @@
 class Solution {
 private:
-    int f(int ind, vector<int>& coins, int am, vector<vector<int>>& dp) {
-        if(am == 0) return 0;
-        if (ind == 0) {
-            if (am % coins[0] == 0)
-                return am / coins[0];
+    int f(int ind , vector<int>& arr , int tar,vector<vector<int>>& dp){
+        if(ind == 0){
+            if(tar % arr[ind] == 0)
+                return tar / arr[ind];
             else
                 return 1e8;
         }
-        if (dp[ind][am] != -1)
-            return dp[ind][am];
-        int notake = f(ind - 1, coins, am, dp);
+
+        if(dp[ind][tar]!= -1) return dp[ind][tar];
+
+        int notake = f(ind-1,arr,tar,dp);
         int take = 1e8;
-        if (coins[ind] <= am)
-            take = 1 + f(ind, coins, am - coins[ind], dp);
-
-        return dp[ind][am] = min(take, notake);
+        if(arr[ind]<=tar)
+            take = 1 + f(ind,arr,tar-arr[ind],dp);
+    
+        return dp[ind][tar] = min(take,notake);
     }
-
 public:
     int coinChange(vector<int>& coins, int amount) {
-        int n = coins.size();
-        vector<vector<int>> dp(n+1, vector<int>(amount+1, -1));
-        int ans = f(coins.size() - 1, coins, amount, dp);
-        return (ans >= 1e8) ? -1 : ans;
+        vector<vector<int>> dp(coins.size()+1,vector<int>(amount+1,-1));
+        int ans = f(coins.size()-1,coins,amount,dp);
+        return (ans>=1e8 ? -1 : ans);
     }
 };
