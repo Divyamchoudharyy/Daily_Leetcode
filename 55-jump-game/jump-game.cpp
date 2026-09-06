@@ -2,11 +2,10 @@ class Solution {
 public:
     bool canJump(vector<int>& nums) {
         
-        int maxi = 0;
+        int curr = 0;
         for(int i = 0;i<nums.size();i++){
-            if(i > maxi)
-                return false;
-            maxi = max(maxi , i + nums[i]);
+            if(i > curr) return false;
+            curr = max(curr,i+nums[i]);
         }
         return true;
     }
