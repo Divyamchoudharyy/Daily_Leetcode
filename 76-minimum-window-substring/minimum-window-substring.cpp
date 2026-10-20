@@ -2,43 +2,36 @@ class Solution {
 public:
     string minWindow(string s, string t) {
         int n1 = s.size() , n2 = t.size();
-        
-        if(n1 < n2) return "";
-
+        if(n2 > n1) return "";
         unordered_map<char,int> need;
         for(char c : t)
             need[c]++;
+        int req = need.size() , curr = 0 , l = 0 , start = 0 , mini=1e8;
 
-        int req = need.size();
-        int curr = 0;
-
-        unordered_map<char,int> window;
-
-        int blen = 1e8 , bstart = 0;
-        int l = 0;
-
+        unordered_map<char,int> win;
         for(int r = 0;r<n1;r++){
             char c = s[r];
-            window[c]++;
+            win[c]++;
 
-            if(need.count(c) && window[c] == need[c]) curr++;
-
+            if(need.count(c) && need[c] == win[c])
+                curr++;
+            
             while(curr == req){
-                if(r - l + 1 < blen){
-                    blen = r-l+1;
-                    bstart = l;
+                int len = r-l+1;
+                if(mini > len){
+                    mini = len;
+                    start = l;
                 }
-                char lc = s[l];
-                window[lc]--;
-                if(need.count(lc) && window[lc] < need[lc])
+                win[s[l]]--;
+                if(need.count(s[l]) && win[s[l]] < need[s[l]])
                     curr--;
                 l++;
             }
+
+
         }
-        return blen >= 1e8 ? "" : s.substr(bstart,blen);
+        if(mini >= 1e8) return "";
 
-
-        
-            
+        return s.substr(start,mini);
     }
 };
